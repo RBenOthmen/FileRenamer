@@ -13,6 +13,16 @@ def change_extension(directory, new_extension):
                 os.rename(file_path, new_file_path)
                 print(f"Renamed: {file_path} --> {new_file_path}")
 
+def on_entry_click(event):
+    if extension_entry.get() == "e.g. pdf":
+        extension_entry.delete(0, "end")
+        extension_entry.config(fg="black")  # Change text color
+
+def on_focus_out(event):
+    if not extension_var.get():
+        extension_entry.insert(0, "e.g. pdf")
+        extension_entry.config(fg="gray")  # Change text color
+
 def browse_folder():
     folder_selected = filedialog.askdirectory()
     if folder_selected:
@@ -37,15 +47,18 @@ root.geometry(f"+{position_right}+{position_down}")
 label = tk.Label(root, text="Select a folder to change file extensions:", fg="white", bg="#333333")
 label.pack(pady=10)
 
-# Create an entry field for the new extension
+# Create an entry field for the new extension with a placeholder
 extension_var = tk.StringVar()
-extension_entry = tk.Entry(root, textvariable=extension_var)
+extension_entry = tk.Entry(root, textvariable=extension_var, fg="gray")
+extension_entry.insert(0, "e.g. pdf")  # Placeholder text
+extension_entry.bind("<FocusIn>", on_entry_click)  # Bind click event
+extension_entry.bind("<FocusOut>", on_focus_out)  # Bind focus out event
 extension_entry.pack()
 
 # Create a button to browse for a folder
 browse_button = tk.Button(root, text="Browse", command=browse_folder, bg="darkgray", fg="white")
-browse_button.pack(pady=10)
-browse_button.config(width=15)  # Set the button width
+browse_button.pack(pady=15)  # Increased padding
+browse_button.config(width=20)  # Increased button width
 
 # Create a label to display status
 status_label = tk.Label(root, text="", fg="green", bg="#333333")
