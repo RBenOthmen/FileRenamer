@@ -1,9 +1,9 @@
 import os
 
-directory = "C:\\Users\\ramib\\Documents"  # Specify the directory path
+current_directory = os.getcwd()  # Get the current working directory
 
 # Iterate over all directories and files recursively
-for root, dirs, files in os.walk(directory):
+for root, dirs, files in os.walk(current_directory):
     for filename in files:
         file_path = os.path.join(root, filename)
 
@@ -19,3 +19,5 @@ for root, dirs, files in os.walk(directory):
         # Rename the file
         os.rename(file_path, new_file_path)
         print(f"Renamed: {file_path} --> {new_file_path}")
+
+input("Press Enter to exit")
